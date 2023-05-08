@@ -1,3 +1,4 @@
+import { FormTemplate } from './form-template.model';
 import { Person } from './person.model';
 
 export interface Team {
