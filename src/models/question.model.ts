@@ -1,9 +1,9 @@
 import { Answer } from "./answer.model";
-import { FormTemplate } from "./form-template.model";
+import { Form } from "./form.model";
 
 export interface Question {
   id: number;
-  form: FormTemplate;
+  form: Form;
   question: string;
   answers: Answer[];
 }

@@ -1,4 +1,4 @@
-import { FormTemplate } from './form-template.model';
+import { Form } from './form.model';
 import { Person } from './person.model';
 
 export interface Team {
@@ -7,5 +7,5 @@ export interface Team {
   manager: Person;
   rh: Person;
   members: Person[];
-  forms: FormTemplate[];
+  forms: Form[];
 }

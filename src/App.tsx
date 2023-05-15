@@ -1,26 +1,31 @@
-import { useContext } from 'react';
+import { AuthProvider, RequireAuth } from 'react-auth-kit';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Navbar } from './components/Navbar';
-import { AuthContext } from './context/AuthContext';
+import { Home } from './pages/Home';
 import { Login } from './pages/Login';
+import { Logout } from './pages/Logout';
 import { NotFound } from './pages/NotFound';
+import refreshApi from './services/refreshApi';
 
 function App() {
-  const logged = useContext(AuthContext);
   return (
     <div className="container">
-      <AuthContext.Provider value={logged}>
-        <Login logged={logged}></Login>
-        <BrowserRouter>
+       <AuthProvider
+       authType='localstorage'
+       authName='_auth'
+       refresh={refreshApi}
+       >
+         <BrowserRouter>
           <Routes>
-            <Route path='home'></Route>
-            <Route path='register'></Route>
-            <Route path='*' element={<NotFound></NotFound>}></Route>
+            <Route path='login' element={<Login></Login>}></Route>
+            <Route path='home' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
+            <Route path='logout' element={<RequireAuth loginPath='/login'><Logout></Logout></RequireAuth>}></Route>
+            <Route path='*' element={<RequireAuth loginPath='/login'><NotFound></NotFound></RequireAuth>}></Route>
           </Routes>
-          {logged && <Navbar></Navbar>}
+            <Navbar></Navbar>
         </BrowserRouter>
-      </AuthContext.Provider>
+       </AuthProvider>
     </div>
   );
 }

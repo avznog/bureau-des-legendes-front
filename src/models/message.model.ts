@@ -6,5 +6,5 @@ export interface Message {
   date: Date;
   alert: Alert;
   sender: Person;
-  value: string;
+  content: string;
 }

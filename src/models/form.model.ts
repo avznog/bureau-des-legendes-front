@@ -4,7 +4,7 @@ import { Person } from './person.model';
 import { Question } from './question.model';
 import { Team } from './team.model'
 
-export interface FormTemplate {
+export interface Form {
   id: number;
   creationDate: Date;
   type: FormType;
