@@ -1,0 +1,60 @@
+stages:
+  - build
+  - docker
+  - deploy
+
+react-build:
+  stage: build
+  image: node:16.15-alpine3.16
+  script:
+    - yarn install
+    - yarn run build
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - .yarn
+      - yarn.lock
+  artifacts:
+    paths:
+      - build/
+
+react-docker-dev:
+  stage: docker
+  image: docker
+  before_script:
+    - docker login -u $DOCKERLOGIN -p $DOCKERTOKEN $CI_REGISTRY
+  script:
+    - docker build -t $CI_IMAGE_FRONT:dev .
+    - docker push $CI_IMAGE_FRONT:dev
+  except:
+    - main
+
+react-docker-main:
+  stage: docker
+  image: docker
+  before_script:
+    - docker login -u $DOCKERLOGIN -p $DOCKERTOKEN $CI_REGISTRY
+  script:
+    - docker build -t $CI_IMAGE_FRONT:main .
+    - docker push $CI_IMAGE_FRONT:main
+  only:
+    - main
+
+react-deploy:
+  stage: deploy
+  before_script:
+    - "which ssh-agent || (apk update && apk add openssh-client bash curl)"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - bash -c "ssh-add <(echo \"$SSH_PRIVATE_KEY\")"
+    - export COMPOSE_HTTP_TIMEOUT=200
+    - ssh root@$HOST "docker compose -f ~/docker-compose.yml down --remove-orphans"
+    - ssh root@$HOST "docker compose -f ~/docker-compose.yml pull"
+    - ssh root@$HOST "docker compose -f ~/docker-compose.yml up -d"
+  only:
+    - main
+    - feature/deployment
