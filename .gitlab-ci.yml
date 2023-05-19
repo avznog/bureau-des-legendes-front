@@ -19,3 +19,25 @@ react-build:
   artifacts:
     paths:
       - build/
+
+react-docker-dev:
+  stage: docker
+  image: docker
+  before_script:
+    - docker login -u $DOCKERLOGIN -p $DOCKERTOKEN $CI_REGISTRY
+  script:
+    - docker build -t $CI_IMAGE_FRONT:dev .
+    - docker push $CI_IMAGE_FRONT:dev
+  except:
+    - main
+
+react-docker-main:
+  stage: docker
+  image: docker
+  before_script:
+    - docker login -u $DOCKERLOGIN -p $DOCKERTOKEN $CI_REGISTRY
+  script:
+    - docker build -t $CI_IMAGE_FRONT:main .
+    - docker push $CI_IMAGE_FRONT:main
+  only:
+    - main
