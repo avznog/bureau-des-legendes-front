@@ -1,0 +1,6 @@
+export enum FormType {
+  MOTIVOMETER,
+  BURN_OUT,
+  HARASSMENT,
+  TESTIMONY
+}
