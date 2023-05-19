@@ -1,7 +1,7 @@
 stages:
   - build
   - docker
-  - release
+  - deploy
 
 react-build:
   stage: build
@@ -41,3 +41,20 @@ react-docker-main:
     - docker push $CI_IMAGE_FRONT:main
   only:
     - main
+
+react-deploy:
+  stage: deploy
+  before_script:
+    - "which ssh-agent || (apk update && apk add openssh-client bash curl)"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - bash -c "ssh-add <(echo \"$SSH_PRIVATE_KEY\")"
+    - export COMPOSE_HTTP_TIMEOUT=200
+    - ssh root@$HOST "docker compose -f ~/docker-compose.yml down --remove-orphans"
+    - ssh root@$HOST "docker compose -f ~/docker-compose.yml pull"
+    - ssh root@$HOST "docker compose -f ~/docker-compose.yml up -d"
+  only:
+    - main
+    - feature/deployment
