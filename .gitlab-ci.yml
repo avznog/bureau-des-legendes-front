@@ -1,0 +1,21 @@
+stages:
+  - build
+  - docker
+  - release
+
+react-build:
+  stage: build
+  image: node:16.15-alpine3.16
+  script:
+    - yarn install
+    - yarn run build
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - .yarn
+      - yarn.lock
+  artifacts:
+    paths:
+      - build/
