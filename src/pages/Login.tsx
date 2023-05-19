@@ -25,7 +25,6 @@ export function Login() {
       email: email,
       password: password
     });
-    console.log(user.data)
     if(user.data.authorized) {
       signIn({
         token: user.data.access_token,
