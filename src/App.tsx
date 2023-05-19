@@ -5,27 +5,28 @@ import { Navbar } from './components/Navbar';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Logout } from './pages/Logout';
-import { NotFound } from './pages/NotFound';
-import refreshApi from './services/refreshApi';
+import Register from './pages/Register';
 
 function App() {
   return (
-    <div className="container">
-       <AuthProvider
-       authType='localstorage'
-       authName='_auth'
-       refresh={refreshApi}
-       >
-         <BrowserRouter>
-          <Routes>
-            <Route path='login' element={<Login></Login>}></Route>
-            <Route path='home' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
-            <Route path='logout' element={<RequireAuth loginPath='/login'><Logout></Logout></RequireAuth>}></Route>
-            <Route path='*' element={<RequireAuth loginPath='/login'><NotFound></NotFound></RequireAuth>}></Route>
-          </Routes>
+    <div>
+      <AuthProvider
+        authType='localstorage'
+        authName='_auth'
+      >
+        <BrowserRouter>
+          <div className='App'>
+            <Routes>
+              <Route path='login' element={<Login></Login>}></Route>
+              <Route path='register' element={<Register></Register>}></Route>
+              <Route path='home' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
+              <Route path='logout' element={<RequireAuth loginPath='/login'><Logout></Logout></RequireAuth>}></Route>
+              <Route path='*' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
+            </Routes>
             <Navbar></Navbar>
+          </div>
         </BrowserRouter>
-       </AuthProvider>
+      </AuthProvider>
     </div>
   );
 }

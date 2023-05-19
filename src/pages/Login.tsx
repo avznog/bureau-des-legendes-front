@@ -1,62 +1,75 @@
-import { Button, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useAuthUser, useSignIn } from "react-auth-kit";
-import { redirect, useNavigate } from "react-router-dom";
+import { Alert, Button, Snackbar, TextField } from "@mui/material";
+import { useState } from "react";
+import { useSignIn } from "react-auth-kit";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../axios/axios";
 
 
 export function Login() {
-  const authUser = useAuthUser();
-  const navigate = useNavigate();
-  // useEffect(() => {
-  //   if(authUser()) {
-  //     navigate('/home')
-  //   }
-  // })
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [open, setOpen] = useState(false);
+  const [alert, setAlert] = useState('');
+  const [loading, setLoading] = useState(false);
   const signIn = useSignIn();
-  const updateUsername = (event: any) => {
-    setUsername(event.target.value)
+  const navigate = useNavigate();
+  const updateEmail = (event: any) => {
+    setEmail(event.target.value)
   };
 
   const updatePassword = (event: any) => {
     setPassword(event.target.value);
   }
-
   const login = async () => {
-    // const response = await axios.post('auth/login', { username: username, password: password});
-    const response = {
-      data: {
-        isSuccess: true,
-        access_token: "dzadzadza",
-        refresh_token: "dzad",
-        email: 'bgonzva@juniorisep.com'
-      }
-    }
-    if(response.data.isSuccess) {
+    const user = await axios.post("auth/login", {
+      email: email,
+      password: password
+    });
+    console.log(user.data)
+    if(user.data.authorized) {
       signIn({
-        token: response.data.access_token,
-        refreshToken: response.data.refresh_token,
+        token: user.data.access_token,
         expiresIn: 3600,
         tokenType: "Bearer",
-        authState: { email: response.data.email },
-        refreshTokenExpireIn: 60
+        authState: { person: user.data }
       })
-      navigate('/home');
+      displayAlert('success');
+      navigate("/home");
+    } else {
+      displayAlert('error')
     }
   };
+
+  const displayAlert = (state: string) => {
+    setAlert(state);
+    setOpen(true);
+    setInterval(() => setOpen(false), 2000);
+    setLoading(false);
+  };
+
+  
   return (
     <div className="flex items-center justify-center h-screen align-baseline">
       <div className="mx-10">
         <span className="justify-center w-full text-lg">Connexion</span>
         <div className="w-full space-y-2">
-          <TextField value={username} onInput={e => updateUsername(e)} className="w-full" label="username" variant="outlined"></TextField>
+          <TextField value={email} onInput={e => updateEmail(e)} className="w-full" label="email" variant="outlined"></TextField>
           <TextField value={password} onInput={e => updatePassword(e)} className="w-full" label="password" type="password" variant="outlined"></TextField>
         </div>
-        <div className="flex justify-center w-full p-5">
-          <Button onClick={() => login()} variant="outlined" className="flex self-center">Se connecter</Button>
+        <div className="p-5 ">
+          <div className="justify-center w-full pb-2">
+          </div>
+          <div className="flex justify-center w-full">
+            <Button onClick={() => login()} variant="contained">Se connecter</Button>
+          </div>
+          <div className="flex justify-center">
+            <Link to="/register"><Button>Je n'ai pas de compte</Button></Link>
+          </div>
         </div>
       </div>
+      <Snackbar open={open} className="w-1/2" autoHideDuration={2000} message={"Test"}>
+          <Alert severity={alert == 'success' ? 'success' : alert == 'error' ? 'error' : 'info'}>{alert == 'success' ? 'Authentification réussie' : "L'authentification a échoué"}</Alert>
+        </Snackbar>
     </div>
   )
 }
