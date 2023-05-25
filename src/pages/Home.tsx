@@ -4,13 +4,10 @@ import { useEffect } from "react";
 import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
 
 export function Home() {
-  const auth = useAuthUser();
-  const isAuthenticated = useIsAuthenticated();
-  
   useEffect(() => {
     axios.get(`http://localhost:8000/forms/team/1`).then((response) => console.log(response.data)).catch((error) => console.log(error));
   })
-  
+    
   return (
   <Container>
         <Card className="mt-5 mb-5 bg-gradient-to-r from-blue-300 to-blue-700">
