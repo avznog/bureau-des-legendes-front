@@ -10,7 +10,7 @@ export function Home() {
   const [forms, setForms] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/forms/team/${auth()?.person.person.team.id}`).then((response) => setForms(response.data)).catch((error) => console.log(error));
+    axios.get(`forms/team/${auth()?.person.person.team.id}`).then((response) => setForms(response.data)).catch((error) => console.log(error));
   }, [setForms])
     
   return (
