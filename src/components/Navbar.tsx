@@ -15,8 +15,8 @@ export function Navbar() {
     <div>
     { isAuthenticated() && <div className="fixed bottom-0 w-full">
     <BottomNavigation className="w-full" showLabels value={value} onChange={(event, newValue) => setValue(newValue)}>
-      <BottomNavigationAction value={0} onClick={() => navigate('home')} label="Home" icon={<HomeIcon></HomeIcon>}/>
-      <BottomNavigationAction value={1} label="Formulaires" icon={<FormsIcon></FormsIcon>}/>
+      <BottomNavigationAction value={0} onClick={() => navigate('home')} label="Accueil" icon={<HomeIcon></HomeIcon>}/>
+      <BottomNavigationAction value={1} onClick={() => navigate('alert')} label="Alertes" icon={<FormsIcon></FormsIcon>}/>
       <BottomNavigationAction value={2} onClick={() => navigate("team")} label="Équipe" icon={<TeamIcon></TeamIcon>}/>
       <BottomNavigationAction value={3} onClick={() => navigate('logout')} label="Logout" icon={<LogoutIcon></LogoutIcon>}/>
     </BottomNavigation>
