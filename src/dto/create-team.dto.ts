@@ -1,5 +1,5 @@
 export interface CreateTeamDto {
   name: string;
-  manager: number;
-  rh: number;
+  managerId: number;
+  rhId: number;
 }

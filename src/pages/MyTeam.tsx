@@ -40,12 +40,7 @@ export default function MyTeam() {
   }
   // ? if i join a team
   const handleJoinTeam = (teamId: number) => {
-    axios.get<Person>(`persons/set-team`, {
-      params: {
-        teamId: teamId,
-        personId: user()!.person.person.id
-      }
-    })
+    axios.patch<Person>(`persons/set-team/${teamId}/${user()!.person.person.id}`)
       .then(response => {
         const team = teams.find(t => t.id == teamId);
         if (team) {
@@ -88,19 +83,21 @@ export default function MyTeam() {
                       <AccordionSummary key={team.id} expandIcon={<ExpandMore></ExpandMore>}>{team.name}</AccordionSummary>
                       <AccordionDetails key={team.id}>
                         <List key={team.id}>
-                          {team.members.map(member => {
-                            return (
-                              <ListItem key={member.id} alignItems="flex-start">
-                                <ListItemAvatar key={member.id}>
-                                  <Avatar key={member.id} alt="me" src="https://lh3.googleusercontent.com/a-/AD5-WCk6_ZVTIRZduKM_Q23LIR241emWVKuzxuV6ZgKG=s3000-p"></Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary={member.firstname + " " + member.lastname.toUpperCase()} secondary={member.role}>
-                                </ListItemText>
-                              </ListItem>
-                            )
+                          {team.members != undefined && team.members.map(member => {
+                            if(member && member != undefined && typeof(member) != 'number') {
+                              return (
+                                <ListItem key={member.id} alignItems="flex-start">
+                                  <ListItemAvatar key={member.id}>
+                                    <Avatar key={member.id} alt="me" src="https://lh3.googleusercontent.com/a-/AD5-WCk6_ZVTIRZduKM_Q23LIR241emWVKuzxuV6ZgKG=s3000-p"></Avatar>
+                                  </ListItemAvatar>
+                                  <ListItemText primary={member.firstname + " " + member.lastname.toUpperCase()} secondary={member.role}>
+                                  </ListItemText>
+                                </ListItem>
+                              )
+                            }
                           })}
                           <ListItem alignItems="flex-start" key={team.id}>
-                            <ListItemButton key={team.id} disabled={user()?.person.person.role != Role.MEMBER || team.members.some(m => m.role == Role.RH || m.role == Role.MANAGER)} onClick={() => handleJoinTeam(team.id)}>
+                            <ListItemButton key={team.id} disabled={user()?.person.person.role != Role.MEMBER} onClick={() => handleJoinTeam(team.id)}>
                               <ListItemAvatar><GroupAdd color="success"></GroupAdd></ListItemAvatar>
                               <ListItemText>Rejoindre l'équipe</ListItemText>
                             </ListItemButton>
