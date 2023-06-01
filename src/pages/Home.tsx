@@ -1,9 +1,10 @@
 import { Button, Card, CardActions, CardContent, Container, Typography } from "@mui/material";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 import { FormType } from "../constants/form.type";
 import { Form } from "../models/form.model";
+import axios from "../axios/axios";
 
 export function Home() {
   const auth = useAuthUser();
