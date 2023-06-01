@@ -16,7 +16,7 @@ export function Home() {
   }, [setForms])
     
   return (
-  <div className="w-full">
+  <Container>
     {auth()?.person.person.team ? forms.map((form: Form) =>
     ( <Card className={`mt-5 mb-5 bg-gradient-to-r ${form.type === FormType.HARASSMENT ? `from-blue-300 to-blue-700` : form.type === FormType.TESTIMONY ? `from-indigo-300 to-indigo-700` : form.type === FormType.BURN_OUT ? `from-sky-300 to-sky-700` : form.type === FormType.MOTIVOMETER ? `from-cyan-300 to-cyan-700` : ''}`}>
         <CardContent>
@@ -30,13 +30,13 @@ export function Home() {
       </Card>
   )) 
   :
-  <div className="w-full">
+  <Container>
     <div className="flex justify-center w-full p-5">Vous devez d'abord chosir une équipe :</div>
     <div className="flex justify-center w-full">
       <Button className="justify-center" variant="contained" onClick={() => navigate('/team')}>Choisir une équipe</Button>
     </div>
-  </div> 
+  </Container> 
   }
-  </div>
+  </Container>
   )
 }

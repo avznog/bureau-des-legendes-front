@@ -1,16 +1,16 @@
-import { BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { Avatar, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { useState } from "react";
-import { useIsAuthenticated } from "react-auth-kit";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import { FormsIcon } from "./icons/FormsIcon";
 import { HomeIcon } from "./icons/HomeIcon";
-import { LogoutIcon } from "./icons/LogoutIcon";
 import TeamIcon from "./icons/TeamIcon";
 
 export function Navbar() {
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
+  const user = useAuthUser();
   return (
     <div>
     { isAuthenticated() && <div className="fixed bottom-0 w-full">
@@ -18,7 +18,7 @@ export function Navbar() {
       <BottomNavigationAction value={0} onClick={() => navigate('home')} label="Home" icon={<HomeIcon></HomeIcon>}/>
       <BottomNavigationAction value={1} label="Formulaires" icon={<FormsIcon></FormsIcon>}/>
       <BottomNavigationAction value={2} onClick={() => navigate("team")} label="Équipe" icon={<TeamIcon></TeamIcon>}/>
-      <BottomNavigationAction value={3} onClick={() => navigate('logout')} label="Logout" icon={<LogoutIcon></LogoutIcon>}/>
+      <BottomNavigationAction value={3} onClick={() => navigate('account')} icon={<Avatar alt="Ma photo" className="transition-all" sx={value == 3 ? {height: 35, width: 35} : {height: 25, width: 25}} src={user()?.person.person.photo}></Avatar>}/>
     </BottomNavigation>
     </div>}
     </div>

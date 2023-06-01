@@ -7,6 +7,7 @@ import { Login } from './pages/Login';
 import { Logout } from './pages/Logout';
 import MyTeam from './pages/MyTeam';
 import Register from './pages/Register';
+import Account from './pages/Account';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path='home' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
               <Route path='team' element={<RequireAuth loginPath='/login'><MyTeam></MyTeam></RequireAuth>}></Route>
               <Route path='logout' element={<RequireAuth loginPath='/login'><Logout></Logout></RequireAuth>}></Route>
+              <Route path='account' element={<RequireAuth loginPath='/login'><Account></Account></RequireAuth>}></Route>
               <Route path='*' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
             </Routes>
             <Navbar></Navbar>
