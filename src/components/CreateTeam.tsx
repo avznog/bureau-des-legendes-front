@@ -33,8 +33,8 @@ export default function CreateTeam(props: Props) {
   const handleCreateTeam = () => {
     const createTeamDto: CreateTeamDto = {
       name: teamName,
-      manager: props.user.id,
-      rh: Number(chosenRHId)
+      managerId: props.user.id,
+      rhId: Number(chosenRHId)
     }
     axios.post(`teams`, createTeamDto)
       .then(response => {
