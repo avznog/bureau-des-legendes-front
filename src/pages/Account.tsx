@@ -1,11 +1,10 @@
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Button, Container, Divider, List, ListItem, ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Button, Container, Divider, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useAuthUser, useSignOut } from "react-auth-kit"
-import { Person } from "../models/person.model";
-import axios from "../axios/axios";
+import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
-import { ExpandMore, GroupAdd } from "@mui/icons-material";
-import { Role } from "../constants/role.type";
+import axios from "../axios/axios";
+import { Person } from "../models/person.model";
 
 export default function Account() {
   const user = useAuthUser();
@@ -13,7 +12,6 @@ export default function Account() {
   useEffect(() => {
     axios.get<Person>(`persons/me/${user()?.person.person.id}`)
       .then(response => {
-        console.log(response.data)
         setMe(response.data)
       })
       .catch(error => console.log(error))

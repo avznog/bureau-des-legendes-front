@@ -11,6 +11,7 @@ import { Team } from "../models/team.model";
 
 interface Props {
   form: Form;
+  handleCloseForm: () => void;
 }
 
 export default function FillForm(props: Props) {
@@ -61,11 +62,14 @@ export default function FillForm(props: Props) {
         user()!.person.person.alerts.push(response.data);
       })
       .catch(error => console.log(error))
+
+
+    props.handleCloseForm();
   }
 
   return (
-    <div className="">
-      <label className="flex justify-center text-2xl">Remplir le formulaire de {props.form.type}</label>
+    <div className="w-full">
+      <label className="flex text-2xl text-center">Remplir le formulaire de {props.form.type}</label>
       <div className="z-0 flex items-center justify-center p-5 overflow-scroll align-baseline">
         <div className="space-y-5">
           {props.form.questions.map(question => {

@@ -53,6 +53,7 @@ react-deploy:
     - bash -c "ssh-add <(echo \"$SSH_PRIVATE_KEY\")"
     - export COMPOSE_HTTP_TIMEOUT=200
     - ssh root@$HOST "docker compose -f ~/docker-compose.yml down --remove-orphans"
+    - ssh root@$HOST "docker system prune -f"
     - ssh root@$HOST "docker compose -f ~/docker-compose.yml pull"
     - ssh root@$HOST "docker compose -f ~/docker-compose.yml up -d"
   only:
