@@ -22,21 +22,21 @@ export default function MyTeam() {
     updateMyTeam()
 
     axios.get<Team[]>(`teams`)
-    .then(response => {
-      setTeams(response.data);
-    })
-    .catch(error => console.log(error));
-    
-    
+      .then(response => {
+        setTeams(response.data);
+      })
+      .catch(error => console.log(error));
+
+
   }, [setTeams, setTeam, user()]);
 
   const updateMyTeam = () => {
-   // ? getting my team
-   axios.get<Team>(`teams/by-member-id/${user()?.person.person.id}`)
-   .then(response => {
-     setTeam(response.data);
-   })
-   .catch(error => console.log(error))
+    // ? getting my team
+    axios.get<Team>(`teams/by-member-id/${user()?.person.person.id}`)
+      .then(response => {
+        setTeam(response.data);
+      })
+      .catch(error => console.log(error))
   }
   // ? if i join a team
   const handleJoinTeam = (teamId: number) => {
@@ -50,64 +50,64 @@ export default function MyTeam() {
       })
       .catch(error => console.log(error))
 
-   
+
 
   }
   return (
-    <div className="w-full">
-      <div className="flex justify-center w-full h-screen mb-[56px]">
+    <div className="w-full h-[calc(100vh-56px)] overflow-scroll">
+      <div className="flex justify-center w-full">
         <div className="self-center w-full h-full">
           <div className="flex justify-center w-full">
             <label className="text-3xl">{team ? "Mon équipe" : "Toutes les équipes"}</label>
           </div>
           {
-            
-  
+
+
             // ? displaying teams
             // ? If user has no team, he can join one
             // ? if user is a Manager, then he can create a team
             !team ?
               <div>
                 {user()?.person.person.role == Role.MANAGER &&
-                <div className="flex justify-center p-5">
-                  <Button variant="contained" onClick={handleOpenModal}>Créer une équipe</Button>
-                  <Modal open={open} onClose={handleCloseModal} className="flex items-center justify-center ">
-                    <div><CreateTeam user={user()?.person.person} handleCloseModal={handleCloseModal} updateMyTeam={updateMyTeam}></CreateTeam></div>
-                  </Modal>
-                </div>
+                  <div className="flex justify-center p-5">
+                    <Button variant="contained" onClick={handleOpenModal}>Créer une équipe</Button>
+                    <Modal open={open} onClose={handleCloseModal} className="flex items-center justify-center ">
+                      <div><CreateTeam user={user()?.person.person} handleCloseModal={handleCloseModal} updateMyTeam={updateMyTeam}></CreateTeam></div>
+                    </Modal>
+                  </div>
                 }
                 <List className="w-full">
-                {teams.map(team => {
-                  return <ListItem key={team.id}>
-                    <Accordion key={team.id} className="w-full">
-                      <AccordionSummary key={team.id} expandIcon={<ExpandMore></ExpandMore>}>{team.name}</AccordionSummary>
-                      <AccordionDetails key={team.id}>
-                        <List key={team.id}>
-                          {team.members != undefined && team.members.map(member => {
-                            if(member && member != undefined && typeof(member) != 'number') {
-                              return (
-                                <ListItem key={member.id} alignItems="flex-start">
-                                  <ListItemAvatar key={member.id}>
-                                    <Avatar key={member.id} alt="me" src="https://lh3.googleusercontent.com/a-/AD5-WCk6_ZVTIRZduKM_Q23LIR241emWVKuzxuV6ZgKG=s3000-p"></Avatar>
-                                  </ListItemAvatar>
-                                  <ListItemText primary={member.firstname + " " + member.lastname.toUpperCase()} secondary={member.role}>
-                                  </ListItemText>
-                                </ListItem>
-                              )
-                            }
-                          })}
-                          <ListItem alignItems="flex-start" key={team.id}>
-                            <ListItemButton key={team.id} disabled={user()?.person.person.role != Role.MEMBER} onClick={() => handleJoinTeam(team.id)}>
-                              <ListItemAvatar><GroupAdd color="success"></GroupAdd></ListItemAvatar>
-                              <ListItemText>Rejoindre l'équipe</ListItemText>
-                            </ListItemButton>
-                          </ListItem>
-                        </List>
-                      </AccordionDetails>
-                    </Accordion>
-                  </ListItem>
-                })}
-              </List>
+                  {teams.map(team => {
+                    return <ListItem key={team.id}>
+                      <Accordion key={team.id} className="w-full">
+                        <AccordionSummary key={team.id} expandIcon={<ExpandMore></ExpandMore>}>{team.name}</AccordionSummary>
+                        <AccordionDetails key={team.id}>
+                          <List key={team.id}>
+                            {team.members != undefined && team.members.map(member => {
+                              if (member && member != undefined && typeof (member) != 'number') {
+                                return (
+                                  <ListItem key={member.id} alignItems="flex-start">
+                                    <ListItemAvatar key={member.id}>
+                                      <Avatar key={member.id} alt="me" src="https://lh3.googleusercontent.com/a-/AD5-WCk6_ZVTIRZduKM_Q23LIR241emWVKuzxuV6ZgKG=s3000-p"></Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={member.firstname + " " + member.lastname.toUpperCase()} secondary={member.role}>
+                                    </ListItemText>
+                                  </ListItem>
+                                )
+                              }
+                            })}
+                            <ListItem alignItems="flex-start" key={team.id}>
+                              <ListItemButton key={team.id} disabled={user()?.person.person.role != Role.MEMBER} onClick={() => handleJoinTeam(team.id)}>
+                                <ListItemAvatar><GroupAdd color="success"></GroupAdd></ListItemAvatar>
+                                <ListItemText>Rejoindre l'équipe</ListItemText>
+                              </ListItemButton>
+                            </ListItem>
+                          </List>
+                        </AccordionDetails>
+                      </Accordion>
+                    </ListItem>
+                  })}
+                </List>
               </div>
               // ? if user has a team, then just display it
               : team.members && team.members.map(member => {

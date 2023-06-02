@@ -3,11 +3,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Navbar } from './components/Navbar';
 import Account from './pages/Account';
+import Forms from './pages/Forms';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import MyTeam from './pages/MyTeam';
 import Register from './pages/Register';
-import FillForm from './components/FillForm';
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
               <Route path='home' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
               <Route path='team' element={<RequireAuth loginPath='/login'><MyTeam></MyTeam></RequireAuth>}></Route>
               <Route path='account' element={<RequireAuth loginPath='/login'><Account></Account></RequireAuth>}></Route>
+              <Route path='forms' element={<RequireAuth loginPath='/login'><Forms></Forms></RequireAuth>}></Route>
               <Route path='*' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
             </Routes>
             <Navbar></Navbar>

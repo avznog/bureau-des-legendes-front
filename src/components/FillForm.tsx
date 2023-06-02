@@ -30,7 +30,6 @@ export default function FillForm(props: Props) {
     axios.get(`teams/by-member-id/${user()?.person.person.id}`)
       .then(response => {
         setMyTeam(response.data)
-        console.log(response.data)
       })
       .catch(error => console.log(error))
   }, [setMyTeam])
@@ -57,9 +56,11 @@ export default function FillForm(props: Props) {
       formId: props.form.id,
       status: Status.STARTED
     }
+
+    // TODO -> to remove, only make a request to all alerts
     axios.post<Alert>(`alerts`, createAlertDto)
       .then(response => {
-        user()!.person.person.alerts.push(response.data);
+        user()!.person.person.filledAlerts.push(response.data);
       })
       .catch(error => console.log(error))
 
@@ -69,7 +70,10 @@ export default function FillForm(props: Props) {
 
   return (
     <div className="w-full">
-      <label className="flex text-2xl text-center">Remplir le formulaire de {props.form.type}</label>
+      <label className="flex p-5 text-2xl text-center">Remplir le formulaire de {props.form.type}</label>
+      <div className="flex justify-center w-full">
+        <Button variant="contained" color="error" onClick={props.handleCloseForm}>Annuler</Button>
+      </div>
       <div className="z-0 flex items-center justify-center p-5 overflow-scroll align-baseline">
         <div className="space-y-5">
           {props.form.questions.map(question => {
