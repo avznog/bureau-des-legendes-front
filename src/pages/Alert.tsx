@@ -27,7 +27,7 @@ function AlertPage() {
     return (
         <Container className="h-[calc(100vh-56px)] overflow-scroll">
             {alerts && alerts.map((alert: Alert) => 
-                (
+                ( alert.form && 
                 <Card key={alert.id} className={`mt-5 mb-5 bg-gradient-to-r ${alert.form.type === FormType.HARASSMENT ? `from-blue-300 to-blue-700` : alert.form.type === FormType.TESTIMONY ? `from-indigo-300 to-indigo-700` : alert.form.type === FormType.BURN_OUT ? `from-sky-300 to-sky-700` : alert.form.type === FormType.MOTIVOMETER ? `from-cyan-300 to-cyan-700` : ''}`}>
                     <CardContent>
                       <Typography variant="h4" className="text-center text-white">
