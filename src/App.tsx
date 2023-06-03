@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Navbar } from './components/Navbar';
 import Account from './pages/Account';
+import Conversations from './pages/Conversations';
 import Forms from './pages/Forms';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -27,6 +28,7 @@ function App() {
               <Route path='account' element={<RequireAuth loginPath='/login'><Account></Account></RequireAuth>}></Route>
               <Route path='forms' element={<RequireAuth loginPath='/login'><Forms></Forms></RequireAuth>}></Route>
               <Route path='alert' element={<RequireAuth loginPath='/login'><AlertPage></AlertPage></RequireAuth>}></Route>
+              <Route path='conversations' element={<RequireAuth loginPath='/login'><Conversations></Conversations></RequireAuth>}></Route>
               <Route path='*' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
             </Routes>
             <Navbar></Navbar>

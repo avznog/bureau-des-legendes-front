@@ -25,10 +25,7 @@ export default function Forms() {
 
   const getForms = () => {
     user()?.person.person.team && axios.get<Form[]>(`forms/team/${user()?.person.person.team.id}`)
-      .then(response => {
-        console.log(response.data)
-        setForms(response.data)
-      })
+      .then(response => setForms(response.data))
       .catch(error => console.log(error))
   }
 
