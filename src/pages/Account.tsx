@@ -1,5 +1,5 @@
-import { ExpandMore } from "@mui/icons-material";
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Button, Container, Divider, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import { ArrowBackIos, ExpandMore } from "@mui/icons-material";
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Button, Container, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +31,9 @@ export default function Account() {
   }
   return (
     <Container>
+      <div className="left-0 flex w-full">
+        <IconButton onClick={() => navigate('/home')}><ArrowBackIos></ArrowBackIos></IconButton>
+      </div>
       <div className="w-full h-[calc(100vh-56px)] overflow-scroll">
         <div className="flex justify-center w-full">
           <div className="self-center w-full h-full">
