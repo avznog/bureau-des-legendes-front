@@ -1,8 +1,7 @@
 import { Button, Card, CardActions, CardContent, Container, Typography } from "@mui/material";
-
+import axios from "../axios/axios";
 import { useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
-import axios from "../axios/axios";
 import ChoseTeam from "../components/ChoseTeam";
 import FillForm from "../components/FillForm";
 import { FormType } from "../constants/form.type";

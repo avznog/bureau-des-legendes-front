@@ -8,6 +8,7 @@ import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import MyTeam from './pages/MyTeam';
 import Register from './pages/Register';
+import AlertPage from './pages/Alert';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path='team' element={<RequireAuth loginPath='/login'><MyTeam></MyTeam></RequireAuth>}></Route>
               <Route path='account' element={<RequireAuth loginPath='/login'><Account></Account></RequireAuth>}></Route>
               <Route path='forms' element={<RequireAuth loginPath='/login'><Forms></Forms></RequireAuth>}></Route>
+              <Route path='alert' element={<RequireAuth loginPath='/login'><AlertPage></AlertPage></RequireAuth>}></Route>
               <Route path='*' element={<RequireAuth loginPath='/login'><Home></Home></RequireAuth>}></Route>
             </Routes>
             <Navbar></Navbar>
