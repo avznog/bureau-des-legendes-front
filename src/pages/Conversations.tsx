@@ -2,10 +2,10 @@ import { Avatar, Link, List, ListItem, ListItemAvatar, ListItemButton, ListItemT
 import { useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 import axios from "../axios/axios";
-import { Alert } from "../models/alert.model";
-import { Message } from "../models/message.model";
 import OneConversation from "../components/OneConversation";
 import { Role } from "../constants/role.type";
+import { Alert } from "../models/alert.model";
+import { Message } from "../models/message.model";
 
 export default function Conversations() {
   const user = useAuthUser();

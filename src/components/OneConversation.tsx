@@ -1,9 +1,9 @@
-import { Button, Container, Input, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Button, Input, Typography } from "@mui/material";
+import dayjs from "dayjs";
+import { useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 import { Message } from "../models/message.model";
 import { socket } from "../socket/socket";
-import dayjs from "dayjs";
 
 interface Props {
     listMessage: Message[]
