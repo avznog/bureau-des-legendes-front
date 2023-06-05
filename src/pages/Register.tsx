@@ -1,9 +1,10 @@
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Alert, Button, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from "@mui/material";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "../axios/axios";
 import { Role } from "../constants/role.type";
+import { validEmail, validPassword } from '../regex/regex';
 
 export default function Register() {
   const [firstname, setFirstname] = useState("");
@@ -16,12 +17,21 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [emailErr, setEmailErr] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const handleSubmit = async () => {
     
     setLoading(true);
-    if(password != confirmPassword) {
+    if(password !== confirmPassword) {
       displayAlert('missmatch');
-    } else {
+    } 
+    else if (emailErr === true) {
+      displayAlert('errEmail');
+    }
+    else if (passwordError === true) {
+      displayAlert('errPassword');
+    }
+    else {
       axios.post("/auth/register", {
         firstname: firstname,
         lastname: lastname,
@@ -37,6 +47,26 @@ export default function Register() {
           displayAlert("error");
         })
     }
+  }
+
+  const handleChangeEmail = (e:any) => {
+    if (!validEmail.test(e.target?.value)) {
+      setEmailErr(true);
+    }
+    else {
+      setEmailErr(false);
+    }
+    setEmail(e.target?.value);
+  }
+
+  const handleChangePassword = (e:any) => {
+    if (!validPassword.test(e.target?.value)) {
+      setPasswordError(true);
+    }
+    else {
+      setPasswordError(false);
+    }
+    setPassword(e.target?.value);
   }
 
   const displayAlert = (state: string) => {
@@ -57,9 +87,9 @@ export default function Register() {
           <div className="w-full max-h-screen space-y-2 overflow-scroll">
             <TextField className="w-full" type="text" label="Prénom" onChange={(e) => setFirstname(e.target?.value)}></TextField>
             <TextField className="w-full" type="text" label="Nom" onChange={(e) => setLastname(e.target?.value)}></TextField>
-            <TextField className="w-full" type="email" label="Email" onChange={(e) => setEmail(e.target?.value)}></TextField>
+            <TextField className="w-full" type="email" label="Email" onChange={(e) => handleChangeEmail(e)}></TextField>
             <TextField className="w-full" type="tel" label="Téléphone" onChange={(e) => setPhone(e.target?.value)}></TextField>
-            <TextField className="w-full" type="password" label="Mot de passe" onChange={(e) => setPassword(e.target?.value)}></TextField>
+            <TextField className="w-full" type="password" label="Mot de passe" onChange={(e) => handleChangePassword(e)}></TextField>
             <TextField className="w-full" type="password" label="Répéter le mot de passe" onChange={(e) => setConfirmPassword(e.target?.value)}></TextField>
             <FormControl className="w-full" fullWidth variant="outlined">
               <InputLabel id="role">Je suis</InputLabel>
@@ -70,12 +100,12 @@ export default function Register() {
               </Select>
             </FormControl>
             <div className="flex justify-center">
-              <Button onClick={() => handleSubmit()} variant="contained" disabled={(firstname == '' || lastname == '' || email == '' || phone == '' || role == '' || !email.includes('@') || loading)}>S'inscrire</Button>
+              <Button onClick={() => handleSubmit()} variant="contained" disabled={(firstname === '' || lastname === '' || email === '' || phone === '' || role === '' || !email.includes('@') || loading)}>S'inscrire</Button>
             </div>
           </div>
         </div>
         <Snackbar open={open} className="w-1/2" autoHideDuration={2000} message={"Test"}>
-          <Alert severity={alert == 'success' ? 'success' : alert == 'error' ? 'error' : alert == 'missmatch' ? 'error' : 'info'}>{alert == 'success' ? 'Inscription réussie' : alert == 'missmatch' ? "Les mots de passe sont différents" : "L'inscription a échoué"}</Alert>
+          <Alert severity={alert === 'success' ? 'success' : alert === 'error' ? 'error' : alert === 'missmatch' ? 'error' : alert === 'errValidation' ? 'error' : alert === 'errPassword' ? 'error' : 'info'}>{alert === 'success' ? 'Inscription réussie' : alert === 'missmatch' ? "Les mots de passe sont différents" : alert === 'errValidation' ? "Le mail n'est pas valide" : alert === 'errPassword' ? "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule et 8 caracètres" : "L'inscription a échoué"}</Alert>
         </Snackbar>
       </div>
     </div>
