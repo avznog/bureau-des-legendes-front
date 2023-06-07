@@ -28,12 +28,20 @@ export default function Conversations() {
 
   const handleClickConversation = (listMessage: Message[], alertId: number) => {
     setAccessConversation(true);
-    console.log(listMessage);
     setListMessage(listMessage);
     setAlertId(alertId);
   }
 
   const handleAccessConversation = () => {
+    if (user()?.person.person.role === Role.RH) {
+        axios.get<Alert[]>(`alerts/by-reviewer/${user()?.person.person.id}`).then((response) => {
+          setAlerts(response.data)
+        }).catch((error) => console.log(error))
+    } else {
+        axios.get<Alert[]>(`alerts/by-filler/${user()?.person.person.id}`).then((response) => {
+          setAlerts(response.data)
+        }).catch((error) => console.log(error))
+    }
     setAccessConversation(false);
   }
 
