@@ -22,7 +22,6 @@ function OneConversation(props: Props) {
     }
 
     const messageListener = (newMessage: Message) => {
-        console.log(newMessage);
         setListMessage([...listMessage, newMessage]);
     }
 
