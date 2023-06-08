@@ -33,12 +33,12 @@ function OneConversation(props: Props) {
     });
 
     return (
-        <div className="my-5 mx-10">
+        <div className="mx-10 my-5">
             <div className="mb-3">
                 <Button variant="contained" color="error" onClick={props.handleAccessConversation}>Précédent</Button>
             </div> 
             {listMessage.map((message) => (
-                <div className={message.sender.id === user()?.person.person.id ? "flex justify-end" : "flex justify-start"}>
+                <div key={message.id} className={message.sender.id === user()?.person.person.id ? "flex justify-end" : "flex justify-start"}>
                     <div className={message.sender.id === user()?.person.person.id ? " bg-sky-300 mb-1 rounded p-2" : "bg-emerald-300 mb-1 rounded p-2"}>
                         <Typography className={message.sender.id === user()?.person.person.id ? "text-right text-white" : "text-left text-white"}>{dayjs(message.date).format("DD/MM/YYYY HH:mm:ss")}</Typography>
                         <Typography className={message.sender.id === user()?.person.person.id ? "text-right text-white" : "text-left text-white"}>{message.content}</Typography>

@@ -54,8 +54,8 @@ export default function Conversations() {
             {
               alerts.map(alert => {
                 return (
-                  <Link component="button" variant="body2" onClick={() => handleClickConversation(alert.messages, alert.id)}>
-                    <ListItem key={alert.id}>
+                  <Link key={alert.id} component="button" variant="body2" onClick={() => handleClickConversation(alert.messages, alert.id)}>
+                    <ListItem>
                       <ListItemButton>
                         <ListItemAvatar>
                           <Avatar alt={alert.reviewer.firstname.charAt(0).toUpperCase() + alert.reviewer.lastname.charAt(0).toUpperCase()} src={alert.reviewer.photo}></Avatar>
