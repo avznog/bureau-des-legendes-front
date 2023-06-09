@@ -6,9 +6,12 @@ import axios from "../axios/axios";
 import { FormType } from "../constants/form.type";
 import { Role } from "../constants/role.type";
 import { Alert } from "../models/alert.model";
+import DisplayForm from "./DisplayForm";
 
 function AlertPage() {
     const auth = useAuthUser();
+    const [formId, setFormId] = useState(0);
+    const [formOn, setFormOn] = useState(false);
     const [alerts, setAlerts] = useState<Alert[]>();
 
     useEffect(() => {
@@ -23,10 +26,17 @@ function AlertPage() {
             }).catch((error) => console.log(error))
         }
     }, [setAlerts])
+
+    const handleAccessForm = (id: number) => {
+      setFormId(id);
+      setFormOn(true);
+    }
     
     return (
         <Container className="h-[calc(100vh-56px)] overflow-scroll">
-            {alerts && alerts.map((alert: Alert) => 
+          {formOn ? <DisplayForm formId={formId}></DisplayForm>
+          : 
+          alerts && alerts.map((alert: Alert) => 
                 ( alert.form && 
                 <Card key={alert.id} className={`mt-5 mb-5 bg-gradient-to-r ${alert.form.type === FormType.HARASSMENT ? `from-blue-300 to-blue-700` : alert.form.type === FormType.TESTIMONY ? `from-indigo-300 to-indigo-700` : alert.form.type === FormType.BURN_OUT ? `from-sky-300 to-sky-700` : alert.form.type === FormType.MOTIVOMETER ? `from-cyan-300 to-cyan-700` : ''}`}>
                     <CardContent>
@@ -34,15 +44,16 @@ function AlertPage() {
                         {alert.form.type === FormType.HARASSMENT ? `Victime d'harcèlement ?` : alert.form.type === FormType.TESTIMONY ? `Témoin d'harcèlement ?` : alert.form.type === FormType.BURN_OUT ? `Fatigué de votre travail ?` : alert.form.type === FormType.MOTIVOMETER ? `Motivomètre` : ''}
                       </Typography>
                       <Typography variant="h5" className="text-center text-white">
-                        {alert.anonymous && auth()?.person.person.role === Role.RH ? `Attention cette alerte est anonyme` : `Rempli par ${alert.filler.firstname} ${alert.filler.lastname} le ${dayjs(alert.creationDate).format("DD/MM/YYYY")}`}
+                        {alert.anonymous && auth()?.person.person.role === Role.RH ? `Attention cette alerte est anonyme` : `${alert.filler.firstname} ${alert.filler.lastname} - ${dayjs(alert.creationDate).format("DD/MM/YYYY")}`}
                       </Typography>
                     </CardContent>
                     <CardActions className="flex justify-center">
-                      <Button size="medium" color="primary" variant="contained" className="text-center">Accéder à ce formulaire</Button>
+                      <Button size="medium" color="primary" variant="contained" className="text-center" onClick={() => handleAccessForm(alert.form.id)}>Accéder à ce formulaire</Button>
                     </CardActions>
                 </Card>
                 )  
-            )}
+            )
+          }
         </Container>
     )
 }

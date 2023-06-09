@@ -64,7 +64,7 @@ export default function CreateForm(props: Props) {
           <Select labelId="type-form" value={typeForm} label="Type de formulaire" onChange={(e: SelectChangeEvent) => setTypeForm(e.target.value)}>
             {Object.keys(FormType).map((type, index) => {
               return (
-                <MenuItem key={index} value={type}>{type}</MenuItem>
+                <MenuItem key={index} value={type}>{type === FormType.HARASSMENT ? `Victime d'harcèlement` : type === FormType.TESTIMONY ? `Témoin d'harcèlement` : type === FormType.BURN_OUT ? `Fatigué de votre travail ?` : type === FormType.MOTIVOMETER ? `Motivomètre` : ''}</MenuItem>
                 )
               })}
           </Select>

@@ -7,6 +7,7 @@ import ChoseTeam from "../components/ChoseTeam";
 import CreateForm from "../components/CreateForm";
 import { Role } from "../constants/role.type";
 import { Form } from "../models/form.model";
+import { FormType } from "../constants/form.type";
 
 export default function Forms() {
   const [forms, setForms] = useState<Form[]>();
@@ -50,7 +51,7 @@ export default function Forms() {
             {forms?.map(form => {
               return <ListItem key={form.id}>
                 <Accordion className="w-full">
-                  <AccordionSummary expandIcon={<ExpandMore></ExpandMore>}>{form.type}</AccordionSummary>
+                  <AccordionSummary expandIcon={<ExpandMore></ExpandMore>}>{form.type === FormType.HARASSMENT ? `Formulaire d'harcèlement` : form.type === FormType.TESTIMONY ? `Formulaire de témoignage d'harcèlement` : form.type === FormType.BURN_OUT ? `Formulaire de burn-out` : form.type === FormType.MOTIVOMETER ? `Motivomètre` : ''}</AccordionSummary>
                   <AccordionDetails>
                     <Divider></Divider>
                     <List>

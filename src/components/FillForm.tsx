@@ -84,8 +84,8 @@ export default function FillForm(props: Props) {
           <div className="inline-flex justify-center w-full">
             <FormControlLabel label="Anonyme ?" control={<Switch onChange={() => setAnonymous(!anonymous)} checked={anonymous}></Switch>}></FormControlLabel>
           </div>
-          <div className="inline-flex justify-center w-full">
-            <FormControlLabel label="Envoyer un mail ?" control={<Switch onChange={() => setSendMail(!sendMail)} checked={sendMail}></Switch>}></FormControlLabel>
+          <div className="inline-flex w-full text-center">
+            <FormControlLabel className="" label="Créer une conversation avec un RH ?" control={<Switch onChange={() => setSendMail(!sendMail)} checked={sendMail}></Switch>}></FormControlLabel>
           </div>
           <div className="flex justify-center">
             <Button variant="contained" onClick={handleSendForm}>Envoyer le formulaire</Button>
