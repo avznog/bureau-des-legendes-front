@@ -24,7 +24,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
           name: bureau-des-legendes-build
-          path: build/
+          path: build/ 
   
   # docker:
 
