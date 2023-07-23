@@ -2,7 +2,7 @@ name: Deploy Bureau des legendes front to vps
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
 
