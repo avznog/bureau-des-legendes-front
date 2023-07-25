@@ -2,7 +2,7 @@ name: Deploy Bureau des legendes front on vps
 
 on:
   push:
-    branches: ["master"]
+    branches: ["main"]
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
